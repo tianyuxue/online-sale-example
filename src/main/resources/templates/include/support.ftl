@@ -1,0 +1,1 @@
+<div class="n-support">请使用Chrome、Safari等webkit内核的浏览器！</div>

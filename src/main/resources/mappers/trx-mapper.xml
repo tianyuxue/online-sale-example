@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.exam.myshop.dao.TrxDao">
+	<select id="findById" parameterType="int" resultMap="trxResultMap">
+		SELECT *
+		FROM trx
+		WHERE id = #{trxId}
+	</select>
+
+	<select id="findAll" resultMap="trxResultMap">
+		SELECT *
+		FROM trx
+	</select>
+
+    <select id="getContentsOfTargetPerson" parameterType="int" resultMap="contentTrxResultMap">
+        SELECT DISTINCT contentId, content.price AS price, title, icon, abstract, text
+        FROM trx,content
+        WHERE
+        trx.contentId = content.id AND trx.personId = #{personId}
+    </select>
+
+    <select id="getTrxsOfTargetPersonAndContent" resultMap="trxResultMap">
+		SELECT *
+		FROM trx
+		WHERE trx.contentId = #{arg1} AND trx.personId = #{arg0}
+	</select>
+	
+	<select id="getTrxsOfTargetContent" parameterType="int" resultMap="trxResultMap">
+		SELECT *
+		FROM trx
+		WHERE trx.contentId=#{contentId}
+	</select>
+
+	<select id="getTrxsOfTargetPerson" parameterType="int" resultMap="trxResultMap">
+		SELECT *
+		FROM trx
+		WHERE trx.personId=#{personId}
+	</select>
+
+	<insert id="addEntity" parameterType="com.netease.exam.myshop.meta.Trx"
+			useGeneratedKeys="true" keyProperty="trxId">
+		INSERT INTO
+			trx(contentId, personId, price, time)
+		values
+			(#{contentId}, #{personId}, #{price}, #{time})
+	</insert>
+
+	<update id="updateEntity" parameterType="com.netease.exam.myshop.meta.Trx"
+			useGeneratedKeys="true" keyProperty="trxId">
+		UPDATE trx
+		SET
+		contentId = #{contentId},
+		personId = #{personId},
+		price = #{price},
+		time = #{time}
+		WHERE id = #{trxId}
+	</update>
+
+	<delete id="deleteEntity" parameterType="com.netease.exam.myshop.meta.Trx">
+		DELETE
+		FROM trx
+		WHERE id = #{trxId}
+	</delete>
+
+	<resultMap id="trxResultMap" type="com.netease.exam.myshop.meta.Trx">
+		<id property="trxId" column="id" />
+		<result property="contentId" column="contentId" />
+		<result property="personId" column="personId" />
+		<result property="price" column="price" />
+		<result property="time" column="time" />
+	</resultMap>
+
+    <resultMap id="contentTrxResultMap" type="com.netease.exam.myshop.meta.Content">
+		<id property="contentId" column="contentId"/>
+		<result property="price" column="price"/>
+		<result property="title" column="title"/>
+		<result property="icon" column="icon"/>
+		<result property="contentAbstract" column="abstract"/>
+		<result property="text" column="text"/>
+	</resultMap>
+
+</mapper>
+

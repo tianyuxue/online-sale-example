@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.exam.myshop.dao.ContentDao">
+  <select id="findById" parameterType="int" resultMap="contentResultMap">
+  	SELECT *
+	FROM content
+	WHERE id = #{id}
+  </select>
+
+  <select id="findAll" resultMap="contentResultMap">
+  	SELECT *
+	FROM content
+  </select>
+  
+  <insert id="addEntity" parameterType="com.netease.exam.myshop.meta.Content"
+		  useGeneratedKeys="true" keyProperty="contentId">
+    INSERT INTO
+		content(price, title, icon, abstract, text)
+    VALUES
+		(#{price}, #{title}, #{icon}, #{contentAbstract}, #{text})
+  </insert>
+  
+  <update id="updateEntity" parameterType="com.netease.exam.myshop.meta.Content">
+  	UPDATE content
+  	SET
+  	price = #{price},
+  	title = #{title},
+  	icon = #{icon},
+  	abstract = #{contentAbstract},
+  	text = #{text}
+  	WHERE id = #{contentId}
+  </update>
+  
+  <delete id="deleteEntity" parameterType="com.netease.exam.myshop.meta.Content">
+    DELETE FROM content
+	WHERE id = #{contentId}
+  </delete>
+  
+  <resultMap id="contentResultMap" type="com.netease.exam.myshop.meta.Content">
+	<id property="contentId" column="id"/>
+	<result property="price" column="price"/>
+	<result property="title" column="title"/>
+	<result property="icon" column="icon"/>
+	<result property="contentAbstract" column="abstract"/>
+	<result property="text" column="text"/>
+  </resultMap>
+</mapper>
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.exam.myshop.dao.PersonDao">
+    <select id="findById" parameterType="int" resultMap="personResultMap">
+        SELECT * FROM person
+        WHERE id=#{id}
+    </select>
+
+    <select id="findByUsername" parameterType="String" resultMap="personResultMap">
+        SELECT *
+        FROM person
+        WHERE userName = #{username}
+    </select>
+
+    <select id="findAll" resultMap="personResultMap">
+  	    SELECT *
+        FROM person
+    </select>
+
+    <insert id="addEntity" parameterType="com.netease.exam.myshop.meta.Person">
+        INSERT INTO
+            person(userName, password, nickName, userType)
+        VALUES
+            (#{userName}, #{password}, #{nickName}, #{userType})
+    </insert>
+
+    <update id="updateEntity" parameterType="com.netease.exam.myshop.meta.Person">
+  	UPDATE person
+  	SET
+  	userName = #{userName},
+  	password = #{password},
+  	nickName = #{nickName},
+  	userType = #{userType}
+  	WHERE userName = #{userName}
+    </update>
+
+    <delete id="deleteEntity" parameterType="com.netease.exam.myshop.meta.Person">
+        DELETE FROM person
+        WHERE userName = #{userName}
+    </delete>
+
+    <resultMap id="personResultMap" type="com.netease.exam.myshop.meta.Person">
+        <id property="userId" column="id"/>
+        <result property="userName" column="userName"/>
+        <result property="password" column="password"/>
+        <result property="nickName" column="nickName"/>
+        <result property="userType" column="userType"/>
+    </resultMap>
+</mapper>
+
